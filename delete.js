@@ -19,10 +19,15 @@ const userSchema = new Schema({
   const User = mongoose.model("User", userSchema);
 
 async function del() {
-    const result = await User.deleteMany({ email: "test@test.com" });
-    //const result = await User.deleteOne({ email: "test@test.com" });
-    console.log(result);
-    mongoose.connection.close();
+    try {
+        const result = await User.deleteMany({ email: "test@test.com" });
+        //const result = await User.deleteOne({ email: "test@test.com" });
+        console.log(result);
+    } catch (err) {
+        console.error('Error deleting users:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 }
     
 del();

@@ -19,24 +19,34 @@ const userSchema = new Schema({
 const User = mongoose.model("User", userSchema);
 
 async function update(id) {
-    const user = await User.findOneAndUpdate({ _id: id }, {
-        $set: {
-            age: 72
-        }
-    }, { new: true,
-         useFindAndModify: false });
-    console.log(user);
-    mongoose.connection.close();
+    try {
+        const user = await User.findOneAndUpdate({ _id: id }, {
+            $set: {
+                age: 72
+            }
+        }, { new: true,
+             useFindAndModify: false });
+        console.log(user);
+    } catch (err) {
+        console.error('Error updating user:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 }
 
 async function updateMany(id) {
-    const user = await User.updateMany({ email: 'test@test.com' }, {
-        $set: {
-            age: 72
-        }
-    });
-    console.log(user);
-    mongoose.connection.close();
+    try {
+        const user = await User.updateMany({ email: 'test@test.com' }, {
+            $set: {
+                age: 72
+            }
+        });
+        console.log(user);
+    } catch (err) {
+        console.error('Error updating users:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 }
  
 update("5f0d8f4931ac8d4d7aae756b");

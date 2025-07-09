@@ -27,15 +27,25 @@ const userSchema = new Schema({
 const User = mongoose.model("User", userSchema);
 
 async function getPersons() {
-    const persons = await Person.find({favoriteFoods: 'wine'});
-    console.log(persons);
-    mongoose.connection.close();
+    try {
+        const persons = await Person.find({favoriteFoods: 'wine'});
+        console.log(persons);
+    } catch (err) {
+        console.error('Error reading persons:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 }
 
 async function read() {
-  const result = await User.find();
-  console.log(result);
-  mongoose.connection.close();
+    try {
+        const result = await User.find();
+        console.log(result);
+    } catch (err) {
+        console.error('Error reading users:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 }
  
 //getPersons();

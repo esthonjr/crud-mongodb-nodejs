@@ -25,18 +25,26 @@ const arrayOfUsers = [
   ];
   
 async function createMany(arrayOfUsers) {
-    const result = await User.insertMany(arrayOfUsers);
-    console.log(result);
-    mongoose.connection.close();
+    try {
+        const result = await User.insertMany(arrayOfUsers);
+        console.log(result);
+    } catch (err) {
+        console.error('Error creating multiple users:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 };
 
 async function create() {
-  
-  const user = new User({email: "test@test.com", firstName: "test", lastName: "test2", age: 33});
-
-  const result = await user.save();
-  console.log(result);
-  mongoose.connection.close();
+    try {
+        const user = new User({email: "test@test.com", firstName: "test", lastName: "test2", age: 33});
+        const result = await user.save();
+        console.log(result);
+    } catch (err) {
+        console.error('Error creating user:', err);
+    } finally {
+        mongoose.connection.close();
+    }
 };
 
 //createMany(arrayOfUsers);
